@@ -72,7 +72,7 @@ order by	line_no
                         }
                     }
                 }
-                catch { }
+                catch { throw; }
                 finally
                 {
                     SqlConn.Close();
@@ -94,7 +94,7 @@ order by	line_no
 
                 File.WriteAllText(filename, JsonConvert.SerializeObject(items));
             }
-            catch { }
+            catch { throw; }
         }
 
         public void DeleteFile(string order_no)
@@ -107,7 +107,7 @@ order by	line_no
                 if (File.Exists(filename))
                     File.Delete(filename);                
             }
-            catch { }
+            catch { throw; }
         }
 
         public List<OeLineItem> LoadLinesFile(string order_no)
@@ -120,7 +120,7 @@ order by	line_no
                 if (File.Exists(filename))
                     return JsonConvert.DeserializeObject<List<OeLineItem>>(File.ReadAllText(filename));
             }
-            catch { }
+            catch { throw; }
             return new List<OeLineItem>();
         }
 
