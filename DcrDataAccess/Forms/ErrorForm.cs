@@ -27,27 +27,9 @@ namespace DcrDataAccess.Forms
         {
             using (DataService service = new DataService(txtServer.Text, txtDb.Text))
             {
-                string body = string.Format(@"
-<p>
-    DCR: {0} <br />
-    Server: {1} <br />
-    Db: {2} <br />
-    User: {3}
-</p>
-<p>
-    Notes: <br />
-    {4}
-</p>
-<p>
-    Error: <br />
-    {5}
-</p>
-", txtDcr.Text, txtServer.Text, txtDb.Text, txtUser.Text, txtNotes.Text.Replace("\n", "<br />"), txtError.Text.Replace("\n", "<br />"));
-
-                string[] tos = new string[] { "" };
-                string subject = string.Format("DCR Error - {0}", txtDcr.Text);
-
-                service.SendDbMail(tos, "", subject, body);
+                service.SendErrorEmail(txtDcr.Text,
+                    new SessionInfo(txtServer.Text, txtDb.Text, txtUser.Text),
+                    txtError.Text, txtNotes.Text);
             }
         }
 

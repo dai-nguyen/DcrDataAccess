@@ -4,6 +4,7 @@
  * Author: Dai Nguyen
 **/
 
+using DcrDataAccess.Models;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,6 +19,7 @@ namespace DcrDataAccess
         const string USER = "";
         const string PASS = "";
         const string DBMAIL_PROFILE = "";
+        const string IT_EMAIL = "";
 
         public SqlConnection SqlConn { get; private set; }
 
@@ -73,6 +75,29 @@ namespace DcrDataAccess
                     SqlConn.Close();
                 }
             }
+        }
+
+        public void SendErrorEmail(string dcr, SessionInfo info, string error, string notes)
+        {
+            string body = string.Format(@"
+<p>
+    DCR: {0} <br />
+    Server: {1} <br />
+    Db: {2} <br />
+    User: {3}
+</p>
+<p>
+    Notes: <br />
+    {4}
+</p>
+<p>
+    Error: <br />
+    {5}
+</p>
+", dcr, info.Server, info.Db, info.Server, notes.Replace("\n", "<br />"), error.Replace("\n", "<br />"));
+
+            string subject = string.Format("DCR Error - {0}", dcr);
+            this.SendDbMail(new string[] { IT_EMAIL }, "", subject, body);
         }
 
         public virtual void Dispose()
