@@ -69,7 +69,7 @@ namespace DcrDataAccess
                     SqlConn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch { }
+                catch { throw; }
                 finally
                 {
                     SqlConn.Close();
