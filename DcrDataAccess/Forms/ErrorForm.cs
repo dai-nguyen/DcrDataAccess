@@ -31,6 +31,7 @@ namespace DcrDataAccess.Forms
                     new SessionInfo(txtServer.Text, txtDb.Text, txtUser.Text),
                     txtError.Text, txtNotes.Text);
             }
+            this.Close();
         }
 
         private void Close_Click(object sender, EventArgs e)
