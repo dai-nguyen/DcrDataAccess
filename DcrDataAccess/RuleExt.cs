@@ -5,6 +5,7 @@
 **/
 
 using Activant.P21.Extensions.BusinessRule;
+using DcrDataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +15,7 @@ using System.Text;
 namespace DcrDataAccess
 {
     public class RuleExt : Rule
-    {        
-        public string Server { get; private set; }
-        public string Db { get; private set; }
-        public string User { get; private set; }
-
+    {                
         private List<string> _errors = new List<string>();
 
         public override RuleResult Execute()
@@ -26,11 +23,11 @@ namespace DcrDataAccess
             return new RuleResult { Success = true };
         }
 
-        public void GetBasicInfo()
+        public SessionInfo GetSessionInfo()
         {
-            Server = Data.Fields["global_server"].FieldValue;
-            Db = Data.Fields["global_database"].FieldValue;
-            User = Data.Fields["global_user_id"].FieldValue;
+            return new SessionInfo(Data.Fields["global_server"].FieldValue,
+                Data.Fields["global_database"].FieldValue,
+                Data.Fields["global_user_id"].FieldValue);
         }
 
         public string GetDataFieldValue(string name)
@@ -39,14 +36,41 @@ namespace DcrDataAccess
             {
                 return Data.Fields[name].FieldValue;
             }
-            catch 
-            { 
-                _errors.Add(string.Format("{0} - not found", name)); 
+            catch
+            {
+                _errors.Add(string.Format("{0} - not found", name));
             }
             return "";
         }
 
-        public int GetErrorCount()
+        public bool SetDataFieldValue(string name, string value)
+        {
+            try
+            {
+                Data.Fields[name].FieldValue = value;
+                return true;
+            }
+            catch
+            {
+                _errors.Add(string.Format("{0} - not found", name));
+            }
+            return false;
+        }
+
+        public DataField GetDataField(string name)
+        {
+            try
+            {
+                return Data.Fields[name];
+            }
+            catch
+            {
+                _errors.Add(string.Format("{0} - not found", name));
+            }
+            return null;
+        }
+
+        public int GetErrorsCount()
         {
             return _errors.Count;
         }

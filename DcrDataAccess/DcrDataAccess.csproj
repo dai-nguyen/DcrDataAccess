@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="DataService.cs" />
     <Compile Include="Models\OrderEntry\OeLineItem.cs" />
+    <Compile Include="Models\SessionInfo.cs" />
     <Compile Include="OrderEntryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleExt.cs" />
