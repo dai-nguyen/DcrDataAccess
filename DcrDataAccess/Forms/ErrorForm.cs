@@ -44,7 +44,7 @@ namespace DcrDataAccess.Forms
 </p>
 ", txtDcr.Text, txtServer.Text, txtDb.Text, txtUser.Text, txtNotes.Text.Replace("\n", "<br />"), txtError.Text.Replace("\n", "<br />"));
 
-                string[] tos = new string[] { "to@email.com" };
+                string[] tos = new string[] { "" };
                 string subject = string.Format("DCR Error - {0}", txtDcr.Text);
 
                 service.SendDbMail(tos, "", subject, body);
